@@ -1,15 +1,18 @@
-#ifndef GOL_STATUS_HEADER
-#define GOL_STATUS_HEADER
+#ifndef GOL_STATUS_HPP
+#define GOL_STATUS_HPP
 
-/*************************************************************************
- * @enum A enum class of Status codes when setting the option of the game.
- ************************************************************************/
-enum class GOLStatus
+namespace GOL
 {
-    Ok,
-    GridTooSmall,
-    InvalidOption,
-    NotInitialized,
-};
+    /*************************************************************************
+     * @enum A enum class of Status codes when setting the option of the game.
+     ************************************************************************/
+    enum class GOLStatus
+    {
+        Ok,
+        GridTooSmall,
+        InvalidOption,
+        NotInitialized,
+    };
+}
 
 #endif

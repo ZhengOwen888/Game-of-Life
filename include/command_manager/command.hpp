@@ -1,70 +1,117 @@
-#ifndef GOL_COMMAND_HEADER
-#define GOL_COMMAND_HEADER
+#ifndef GOL_COMMAND_HPP
+#define GOL_COMMAND_HPP
 
 #include "command_manager/status.hpp"
-#include "command_manager/options.hpp"
+#include "command_manager/config.hpp"
+#include "command_manager/command_context.hpp"
 
-#include "game_logic/gol.hpp"
-
+#include <unordered_map>
+#include <functional>
+#include <vector>
 #include <string>
 #include <utility>
 
-/***************************************************************
- * @class An abstract class that represent a genericgol command.
- **************************************************************/
-class Command
+namespace GOL
 {
-    public:
-        /** @brief Construct a new GOLCommand object with a command name. */
-        Command(const std::string &cmd_name)
-            :cmd_name_{cmd_name}
-        {}
+    /***********************************************
+     * @struct Contain deatails of a command option.
+     **********************************************/
+    struct CommandOption
+    {
+        std::string short_flag_;
+        std::string long_flag_;
+        std::string description_;
+    };
 
-        /** @brief Virtual destructor for safe polymorphic deletion. */
-        virtual ~Command() = default;
+    /***************************************************************
+     * @class An abstract class that represent a genericgol command.
+     **************************************************************/
+    class Command
+    {
+        public:
+            /** @brief Construct a new GOLCommand object with a command name. */
+            Command(const std::string &cmd_name)
+                :cmd_name_{cmd_name}
+            {}
 
-        /*****************************************************************************
-         * @brief Validate the command tokens
-         * @param tokens A const reference to a vector of command tokens.
-         * @return Return a GOLStatus to signal the success and failure of validation.
-         ****************************************************************************/
-        virtual GOLStatus ValidateTokens(const std::vector<std::string>& tokens) = 0;
+            /** @brief Virtual destructor for safe polymorphic deletion. */
+            virtual ~Command() = default;
 
-        /****************************************************************************************
-         * @brief Execute the command tokens.
-         * @param tokens A const reference to a vector of command tokens.
-         * @param gol_options A reference to the current options of this game.
-         * @param game A reference to the actual gol game state.
-         * @return Return a GOLStatus to signal the success and failture of Applying the command.
-         ***************************************************************************************/
-        virtual GOLStatus ExecuteCommandTokens(const std::vector<std::string>& tokens, GOLOptions &gol_options, GOL &game) = 0;
+            /*****************************************************************************
+             * @brief Validate the command tokens
+             * @param tokens A const reference to a vector of command tokens.
+             * @return Return a GOLStatus to signal the success and failure of validation.
+             ****************************************************************************/
+            virtual GOLStatus Validate(const std::vector<std::string>& tokens) = 0;
 
-        /**************************************************************************************
-         * @brief Get a const reference to a string that represent the name of the command.
-         * @return Return a const reference to a string that represent the name of the command.
-         *************************************************************************************/
-        const std::string &Name() const;
+            /****************************************************************************************
+             * @brief Execute the command tokens.
+             * @param cmd_context contains the details of a command to be executed.
+             * @return Return a GOLStatus to signal the success and failture of Applying the command.
+             ***************************************************************************************/
+            virtual GOLStatus Execute(CommandContext &cmd_context) = 0;
 
-        /********************************************************
-         * @brief Provide a brief description of the command.
-         * @return A string that describes what the command does.
-         *******************************************************/
-        std::string Description() const;
+            /*****************************************************************************
+             * @brief Display the command name, description, usage, options, and exmaples.
+             ****************************************************************************/
+            void DisplayCommandInfo() const;
 
-        /**********************************************************************
-         * @brief Provide the general template on how the command is used.
-         * @return A string that shows how the general template of the command.
-         *********************************************************************/
-        std::string Usage() const;
+        protected:
+            using FlagValidator = std::function<std::pair<GOLStatus, size_t>(
+                const std::vector<std::string> &tokens
+            )>;
+            std::unordered_map<std::string, FlagValidator> flag_val_table_{};
 
-        /********************************************************************
-         * @brief Provide an exmaple of how the command is used.
-         * @return A string that shows an example of how the command is used.
-         *******************************************************************/
-        std::string Example() const;
+            using FlagExecutor = std::function<std::pair<GOLStatus, size_t>(
+                CommandContext &cmd_context
+            )>;
+            std::unordered_map<std::string, FlagExecutor> flag_exec_table_{};
 
-    private:
-        std::string cmd_name_;
-};
+            std::vector<CommandOption> options_{};
 
+            /**************************************************************************************
+             * @brief Get a const reference to a string that represent the name of the command.
+             * @return Return a const reference to a string that represent the name of the command.
+             *************************************************************************************/
+            const std::string &Name() const { return cmd_name_; }
+
+            /***************************************************************
+             * @brief Provide a brief description of the command.
+             * @return Return a string that describes what the command does.
+             **************************************************************/
+            virtual std::string Description() const = 0;
+
+            /*****************************************************************************
+             * @brief Provide the general template on how the command is used.
+             * @return Return a string that shows how the general template of the command.
+             ****************************************************************************/
+            virtual std::string Usage() const { return "gol " + cmd_name_ + " [options] <args>"; }
+
+            /****************************************************************************
+             * @brief Provide an exmaple of how the command is used.
+             * @return Returns a string that shows an example of how the command is used.
+             ***************************************************************************/
+            virtual std::string Example() const { return ""; }
+
+            /**************************************************************
+             * @brief Provide a vector osf options for a speicfied command.
+             * @return Returns a vector of command option objects.
+             *************************************************************/
+            virtual std::vector<CommandOption> Options() const { return options_; }
+
+            /***************************************************
+             * @brief Registers a option for a specific command.
+             **************************************************/
+            void RegisterOption(const CommandOption &cmd_option, FlagValidator validator, FlagExecutor executor);
+
+            /******************************************************
+             * @brief Format the option into a displayable string.
+             * @return Returns a string that represents the option.
+             *****************************************************/
+            std::string FormatOptionDisplay() const;
+
+        private:
+            std::string cmd_name_;
+    };
+}
 #endif
