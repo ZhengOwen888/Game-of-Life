@@ -11,6 +11,9 @@ namespace GOL
         Ok,
         GridTooSmall,
         InvalidOption,
+        InvalidArg,
+        MissingArg,
+        ArgOutOfRange,
         NotInitialized,
     };
 }

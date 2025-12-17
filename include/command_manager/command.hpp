@@ -13,14 +13,24 @@
 
 namespace GOL
 {
+    /** @brief A alias for a lamda function that validate a flag/option and its arguments. */
+    using FlagValidator = std::function<std::pair<GOLStatus, size_t>(
+        const std::vector<std::string> &tokens,
+        size_t index
+    )>;
+    /** @brief A alias for a lamda function that execute a flag/option and its arguments. */
+    using FlagExecutor = std::function<std::pair<GOLStatus, size_t>(
+        CommandContext &cmd_context,
+        size_t index
+    )>;
     /***********************************************
      * @struct Contain deatails of a command option.
      **********************************************/
     struct CommandOption
     {
-        std::string short_flag_;
-        std::string long_flag_;
-        std::string description_;
+        std::string short_flag_{};
+        std::string long_flag_{};
+        std::string description_{};
     };
 
     /***************************************************************
@@ -57,16 +67,8 @@ namespace GOL
             void DisplayCommandInfo() const;
 
         protected:
-            using FlagValidator = std::function<std::pair<GOLStatus, size_t>(
-                const std::vector<std::string> &tokens
-            )>;
             std::unordered_map<std::string, FlagValidator> flag_val_table_{};
-
-            using FlagExecutor = std::function<std::pair<GOLStatus, size_t>(
-                CommandContext &cmd_context
-            )>;
             std::unordered_map<std::string, FlagExecutor> flag_exec_table_{};
-
             std::vector<CommandOption> options_{};
 
             /**************************************************************************************
