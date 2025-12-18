@@ -1,7 +1,13 @@
-#include "command_manager.hpp"
+#include "command_manager/command.hpp"
 #include "command_manager/status.hpp"
+#include "command_manager/config.hpp"
+#include "command_manager/execution_context.hpp"
 
+#include <unordered_map>
+#include <vector>
 #include <string>
+#include <utility>
+#include <memory>
 
 namespace GOL
 {
@@ -22,25 +28,21 @@ namespace GOL
         {
             option_display += std::string(6, ' ');
             option_display += '[';
-            option_display += option.short_flag_ + '|' + option.long_flag_;
+            option_display += option->ShortFlag() + '|' + option->LongFlag();
             option_display += ']';
-            option_display += ": " + option.description_ + '\n';
+            option_display += ": " + option->Description() + '\n';
         }
 
         return option_display;
     }
 
-    void Command::RegisterOption(const CommandOption &cmd_option, FlagParser parser, FlagValidator validator, FlagExecutor executor)
+    void Command::RegisterOption(const CommandOption &cmd_option)
     {
-        options_.push_back(cmd_option);
+        options_.push_back(std::make_unique<CommandOption>(cmd_option));
 
-        flag_parse_table_[cmd_option.short_flag_] = parser;
-        flag_parse_table_[cmd_option.long_flag_] = flag_parse_table_[cmd_option.short_flag_];
+        const CommandOption *cmd_option_stored = options_.back().get();
 
-        flag_val_table_[cmd_option.short_flag_] = validator;
-        flag_val_table_[cmd_option.long_flag_] = flag_val_table_[cmd_option.short_flag_];
-
-        flag_exec_table_[cmd_option.short_flag_] = executor;
-        flag_exec_table_[cmd_option.long_flag_] = flag_exec_table_[cmd_option.short_flag_];
+        flag_table_[cmd_option_stored->ShortFlag()] = cmd_option_stored;
+        flag_table_[cmd_option_stored->LongFlag()] = cmd_option_stored;
     }
 }

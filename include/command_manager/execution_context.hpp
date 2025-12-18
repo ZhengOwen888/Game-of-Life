@@ -17,7 +17,7 @@ namespace GOL
     struct ExecutionContext
     {
         GOLConfig &gol_config_;
-        Game &gol_game_;
+        Game &game_;
     };
 
 }

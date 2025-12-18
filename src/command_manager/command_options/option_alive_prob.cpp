@@ -1,4 +1,4 @@
-#include "command_manager/command_options/option_alive_prob.hpp"
+#include "command_manager/command_options/set_command_options/option_alive_prob.hpp"
 #include "command_manager/status.hpp"
 #include "command_manager/config.hpp"
 #include "command_manager/execution_context.hpp"
@@ -40,7 +40,7 @@ namespace GOL
         return {GOLStatus::Ok, arity_};
     }
 
-    std::pair<GOLStatus, size_t> CommandOptionAliveProb::Execute(ExecutionContext &exec_context, GOLConfig &temp_gol_config) const
+    std::pair<GOLStatus, size_t> CommandOptionAliveProb::Execute(Game &game, GOLConfig &gol_config, GOLConfig &temp_gol_config) const
     {
         exec_context.gol_config_.alive_probability_ = temp_gol_config.alive_probability_;
 

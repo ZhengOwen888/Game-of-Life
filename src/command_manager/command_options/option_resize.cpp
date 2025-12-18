@@ -1,4 +1,4 @@
-#include "command_manager/command_options/option_resize.hpp"
+#include "command_manager/command_options/set_command_options/option_resize.hpp"
 #include "command_manager/status.hpp"
 #include "command_manager/config.hpp"
 #include "command_manager/execution_context.hpp"
@@ -50,11 +50,11 @@ namespace GOL
         return {GOLStatus::Ok, arity_};
     }
 
-    std::pair<GOLStatus, size_t> CommandOptionResize::Execute(ExecutionContext &exec_context, GOLConfig &temp_gol_config) const
+    std::pair<GOLStatus, size_t> CommandOptionResize::Execute(Game &game, GOLConfig &gol_config, GOLConfig &temp_gol_config) const
     {
         exec_context.gol_config_.width_ = temp_gol_config.width_;
         exec_context.gol_config_.height_ = temp_gol_config.height_;
-        exec_context.gol_game_.ResizeGrid(exec_context.gol_config_.width_, exec_context.gol_config_.height_);
+        exec_context.game_.ResizeGrid(exec_context.gol_config_.width_, exec_context.gol_config_.height_);
 
         return {GOLStatus::Ok, arity_};
     }

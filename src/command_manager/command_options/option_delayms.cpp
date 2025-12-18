@@ -1,4 +1,4 @@
-#include "command_manager/command_options/option_delayms.hpp"
+#include "command_manager/command_options/set_command_options/option_delayms.hpp"
 #include "command_manager/status.hpp"
 #include "command_manager/config.hpp"
 #include "command_manager/execution_context.hpp"
@@ -40,7 +40,7 @@ namespace GOL
         return {GOLStatus::Ok, arity_};
     }
 
-    std::pair<GOLStatus, size_t> CommandOptionDelayMs::Execute(ExecutionContext &exec_context, GOLConfig &temp_gol_config) const
+    std::pair<GOLStatus, size_t> CommandOptionDelayMs::Execute(Game &game, GOLConfig &gol_config, GOLConfig &temp_gol_config) const
     {
         exec_context.gol_config_.delay_ms_ = temp_gol_config.delay_ms_;
 

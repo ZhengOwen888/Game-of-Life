@@ -9,7 +9,8 @@ namespace GOL
     enum class GOLStatus
     {
         Ok,
-        GridTooSmall,
+        InvalidProgram,
+        InvalidCommand,
         InvalidOption,
         InvalidArg,
         MissingArg,

@@ -13,4 +13,5 @@ add_library(command_manager_library STATIC ${command_manager_src})
 target_include_directories(command_manager_library
     PUBLIC
         "${CMAKE_SOURCE_DIR}/include/command_manager"
+        "${CMAKE_SOURCE_DIR}/include/third_party}"
 )

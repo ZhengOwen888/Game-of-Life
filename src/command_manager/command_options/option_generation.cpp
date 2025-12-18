@@ -1,4 +1,4 @@
-#include "command_manager/command_options/option_generation.hpp"
+#include "command_manager/command_options/set_command_options/option_generation.hpp"
 #include "command_manager/status.hpp"
 #include "command_manager/config.hpp"
 #include "command_manager/execution_context.hpp"
@@ -40,7 +40,7 @@ namespace GOL
         return {GOLStatus::Ok, arity_};
     }
 
-    std::pair<GOLStatus, size_t> CommandOptionGeneration::Execute(ExecutionContext &exec_context, GOLConfig &temp_gol_config) const
+    std::pair<GOLStatus, size_t> CommandOptionGeneration::Execute(Game &game, GOLConfig &gol_config, GOLConfig &temp_gol_config) const
     {
         exec_context.gol_config_.generations_ = temp_gol_config.generations_;
 

@@ -23,27 +23,27 @@ namespace GOL
             /**************************************************************************
              * @brief Parse the command tokens
              * @param tokens A const reference to a vector of command tokens.
+             * @param temp_gol_config A reference to a temp configuration of the game.
              * @return Return a GOLStatus to signal the success and failure of parsing.
              *************************************************************************/
-            GOLStatus Parse(const std::vector<std::string> &tokens) override;
+            GOLStatus Parse(const std::vector<std::string> &tokens, GOLConfig &temp_gol_config) const override;
 
             /*****************************************************************************
              * @brief Validate the command tokens
-             * @param tokens A const reference to a vector of command tokens.
+             * @param temp_gol_config A reference to a temp configuration of the game.
              * @return Return a GOLStatus to signal the success and failure of validation.
              ****************************************************************************/
-            GOLStatus Validate(const std::vector<std::string>& tokens) override;
+            GOLStatus Validate(GOLConfig &temp_configs) const override;
 
             /****************************************************************************************
              * @brief Execute the command tokens.
              * @param exec_context contains the details of a command to be executed.
+             * @param temp_gol_config A reference to a temp configuration of the game.
              * @return Return a GOLStatus to signal the success and failture of Applying the command.
              ***************************************************************************************/
-            GOLStatus Execute(ExecutionContext &exec_context) override;
+            GOLStatus Execute(Game &game, GOLConfig &gol_config, GOLConfig &temp_gol_config) const override;
 
         private:
-            GOLConfig temp_gol_config_{};
-
             /***************************************************************
              * @brief Provide a brief description of the command.
              * @return Return a string that describes what the command does.
@@ -64,21 +64,6 @@ namespace GOL
 
             /** @brief Register all options at once. */
             void RegisterAllOptions() override;
-
-            std::pair<GOLStatus, size_t> ParseResize(std::vector<std::string> tokens, size_t index);
-            std::pair<GOLStatus, size_t> ValidateResize(std::vector<std::string> tokens, size_t index);
-            std::pair<GOLStatus, size_t> ExecuteResize(ExecutionContext &exec_context, size_t index);
-
-            std::pair<GOLStatus, size_t> ParseGeneration(std::vector<std::string> tokens, size_t index);
-            std::pair<GOLStatus, size_t> ValidateGeneration(std::vector<std::string> tokens, size_t index);
-            std::pair<GOLStatus, size_t> ExecuteGeneration(ExecutionContext &exec_context, size_t index);
-
-            std::pair<GOLStatus, size_t> ParseDelayMs(std::vector<std::string> tokens, size_t index);
-            std::pair<GOLStatus, size_t> ValidateDelayMs(std::vector<std::string> tokens, size_t index);
-            std::pair<GOLStatus, size_t> ExecuteDelayMs(ExecutionContext &exec_context, size_t index);
-
-            std::pair<GOLStatus, size_t> ParseAliveProb(std::vector<std::string> tokens, size_t index);
-            std::pair<GOLStatus, size_t> validateAliveProb(std::vector<std::string> tokens, size_t index);
     };
 }
 

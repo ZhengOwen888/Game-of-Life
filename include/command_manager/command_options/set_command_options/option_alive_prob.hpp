@@ -1,5 +1,5 @@
-#ifndef GOL_COMMAND_OPTION_CELLREPR_HPP
-#define GOL_COMMAND_OPTION_CELLREPR_HPP
+#ifndef GOL_COMMAND_OPTION_ALIVEPROB_HPP
+#define GOL_COMMAND_OPTION_ALIVEPROB_HPP
 
 #include "command_manager/status.hpp"
 #include "command_manager/config.hpp"
@@ -12,11 +12,11 @@
 
 namespace GOL
 {
-    class CommandOptionCellRepr : public CommandOption
+    class CommandOptionAliveProb : public CommandOption
     {
         public:
-            CommandOptionCellRepr()
-                : CommandOption{"-cr", "--cell-repr", "set the character that represent an alive cell.", 2}
+            CommandOptionAliveProb()
+                : CommandOption{"-ap", "--alive-prob", "set the probability a cell is alive.", 2}
             {}
 
             /**********************************************************************************************
@@ -26,22 +26,23 @@ namespace GOL
              * @param temp_gol_config A reference to a temporary GOLConfig object to store parsed values.
              * @return Return a GOLStatus to signal the success and failure of parsing and tokens consumed.
              *********************************************************************************************/
-            std::pair<GOLStatus, size_t> Parse(const std::vector<std::string> &tokens, size_t index, GOLConfig &temp_gol_config) const;
+            std::pair<GOLStatus, size_t> Parse(const std::vector<std::string> &tokens, size_t index, GOLConfig &temp_gol_config) const override;
 
             /*************************************************************************************************
              * @brief Validate the command tokens
              * @param temp_gol_config A reference to the temporary GOLConfig object containing parsed values.
              * @return Return a GOLStatus to signal the success and failure of validating and tokens consumed.
              ************************************************************************************************/
-            std::pair<GOLStatus, size_t> Validate(GOLConfig &temp_gol_config) const;
+            std::pair<GOLStatus, size_t> Validate(GOLConfig &temp_gol_config) const override;
 
             /***************************************************************************************************
              * @brief Execute the command tokens
-             * @param exec_context Reference to the ExecutionContext where changes will be applied.
+             * @param game A reference to the actual gol game state.
+             * @param gol_config A reference to the actual game configuration.
              * @param temp_gol_config A reference to the temporary GOLConfig object containing validated values.
              * @return Return a GOLStatus to signal the success and failure of executing and tokens consumed.
              **************************************************************************************************/
-            std::pair<GOLStatus, size_t> Execute(ExecutionContext &exec_context, GOLConfig &temp_gol_config) const;
+            std::pair<GOLStatus, size_t> Execute(Game &game, GOLConfig &gol_config, GOLConfig &temp_gol_config) const override;
     };
 }
 

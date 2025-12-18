@@ -52,13 +52,13 @@ namespace GOL
              * @brief Set the State of a single cell.
              * @param cell_detail Details of a single cell.
              *********************************************/
-            void SetCell(CellDetail cell_detail);
+            void SetCellStatus(CellDetail cell_detail);
 
             /***********************************************
              * @brief Set the State of many cells.
              * @param cell_details A vector of cell details.
              **********************************************/
-            void SetCells(std::vector<CellDetail> cell_details);
+            void SetCellStatuses(std::vector<CellDetail> cell_details);
 
             /*******************************************************************************
              * @brief Check if the simulation has reached the maximum number of generations.

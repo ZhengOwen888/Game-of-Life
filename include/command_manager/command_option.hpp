@@ -41,11 +41,12 @@ namespace GOL
 
             /***************************************************************************************************
              * @brief Execute the command tokens
-             * @param exec_context Reference to the ExecutionContext where changes will be applied.
+             * @param game A reference to the actual gol game state.
+             * @param gol_config A reference to the actual game configuration.
              * @param temp_gol_config A reference to the temporary GOLConfig object containing validated values.
              * @return Return a GOLStatus to signal the success and failure of executing and tokens consumed.
              **************************************************************************************************/
-            virtual std::pair<GOLStatus, size_t> Execute(ExecutionContext &exec_context, GOLConfig &temp_gol_config) const = 0;
+            virtual std::pair<GOLStatus, size_t> Execute(Game &game, GOLConfig &gol_config, GOLConfig &temp_gol_config) const = 0;
 
             /** @brief Get the short flag representation of the option. */
             const std::string &ShortFlag() const { return short_flag_; }
