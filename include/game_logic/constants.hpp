@@ -22,7 +22,7 @@ namespace GOL
         inline constexpr double MAX_ALIVE_PROB = 1.0;
 
         inline constexpr char MIN_VALID_CHAR_REPR = '!';
-        inline constexpr char MAX_VALID_CHAR_REPR = '126';
+        inline constexpr char MAX_VALID_CHAR_REPR = '~';
 
 
         // == Default Values == //

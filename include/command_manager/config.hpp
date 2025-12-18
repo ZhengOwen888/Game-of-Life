@@ -16,6 +16,9 @@ namespace GOL
         int delay_ms_{GOLConstants::DEFAULT_DELAY_MS};
         double alive_probability_{GOLConstants::DEFAULT_ALIVE_PROB};
         char cell_repr_{GOLConstants::DEFAULT_CHAR_REPR};
+
+        std::vector<std::pair<int, int>> alive_;
+        std::vector<std::pair<int, int>> dead_;
     };
 }
 
