@@ -2,7 +2,6 @@
 #define GOL_SET_COMMAND_HPP
 
 #include "command_manager/command.hpp"
-#include "command_manager/execution_context.hpp"
 #include "command_manager/config.hpp"
 #include "command_manager/status.hpp"
 

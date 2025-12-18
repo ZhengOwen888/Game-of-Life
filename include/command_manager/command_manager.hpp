@@ -4,6 +4,7 @@
 #include "command_manager/status.hpp"
 #include "command_manager/config.hpp"
 #include "command_manager/command.hpp"
+#include "game_logic/game.hpp"
 
 #include <string>
 #include <memory>

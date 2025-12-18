@@ -1,7 +1,6 @@
 #include "command_manager/command_options/set_command_options/option_cell_status.hpp"
 #include "command_manager/status.hpp"
 #include "command_manager/config.hpp"
-#include "command_manager/execution_context.hpp"
 #include "command_manager/command_option.hpp"
 #include "game_logic/cell_detail.hpp"
 

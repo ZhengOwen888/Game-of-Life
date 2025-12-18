@@ -3,7 +3,6 @@
 
 #include "command_manager/status.hpp"
 #include "command_manager/config.hpp"
-#include "command_manager/execution_context.hpp"
 #include "command_manager/command_option.hpp"
 #include "game_logic/game.hpp"
 

@@ -1,7 +1,6 @@
 #include "command_manager/command.hpp"
 #include "command_manager/status.hpp"
 #include "command_manager/config.hpp"
-#include "command_manager/execution_context.hpp"
 
 #include <unordered_map>
 #include <vector>
