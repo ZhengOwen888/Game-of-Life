@@ -42,7 +42,7 @@ namespace GOL
 
     std::pair<GOLStatus, size_t> CommandOptionGeneration::Execute(Game &game, GOLConfig &gol_config, GOLConfig &temp_gol_config) const
     {
-        exec_context.gol_config_.generations_ = temp_gol_config.generations_;
+        gol_config.generations_ = temp_gol_config.generations_;
 
         return {GOLStatus::Ok, arity_};
     }

@@ -2,6 +2,7 @@
 #define GOL_GAME_LOGIC_HPP
 
 #include "game_logic/cell_detail.hpp"
+#include "game_logic/game_state.hpp"
 #include "command_manager/config.hpp"
 
 #include <iostream>
@@ -78,9 +79,11 @@ namespace GOL
             std::vector<CellDetail> curr_gen_{};
             std::vector<CellDetail> next_gen_{};
 
+            GameState game_state_{GameState::Stopped};
+
             int generation_count_{};
             bool initialized_{false};
-            bool simulation_complete{false};
+
     };
 }
 

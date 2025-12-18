@@ -42,7 +42,7 @@ namespace GOL
 
     std::pair<GOLStatus, size_t> CommandOptionAliveProb::Execute(Game &game, GOLConfig &gol_config, GOLConfig &temp_gol_config) const
     {
-        exec_context.gol_config_.alive_probability_ = temp_gol_config.alive_probability_;
+        gol_config.alive_probability_ = temp_gol_config.alive_probability_;
 
         return {GOLStatus::Ok, arity_};
     }

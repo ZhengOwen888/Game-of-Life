@@ -52,9 +52,9 @@ namespace GOL
 
     std::pair<GOLStatus, size_t> CommandOptionResize::Execute(Game &game, GOLConfig &gol_config, GOLConfig &temp_gol_config) const
     {
-        exec_context.gol_config_.width_ = temp_gol_config.width_;
-        exec_context.gol_config_.height_ = temp_gol_config.height_;
-        exec_context.game_.ResizeGrid(exec_context.gol_config_.width_, exec_context.gol_config_.height_);
+        gol_config.width_ = temp_gol_config.width_;
+        gol_config.height_ = temp_gol_config.height_;
+        game.ResizeGrid(gol_config.width_, gol_config.height_);
 
         return {GOLStatus::Ok, arity_};
     }

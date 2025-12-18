@@ -42,7 +42,7 @@ namespace GOL
 
     std::pair<GOLStatus, size_t> CommandOptionDelayMs::Execute(Game &game, GOLConfig &gol_config, GOLConfig &temp_gol_config) const
     {
-        exec_context.gol_config_.delay_ms_ = temp_gol_config.delay_ms_;
+        gol_config.delay_ms_ = temp_gol_config.delay_ms_;
 
         return {GOLStatus::Ok, arity_};
     }

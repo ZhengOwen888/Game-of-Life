@@ -77,13 +77,13 @@ namespace GOL
 
     std::pair<GOLStatus, size_t> CommandOptionCellStatus::Execute(Game &game, GOLConfig &gol_config, GOLConfig &temp_gol_config) const
     {
-        exec_context.gol_config_.alive_ = std::move(temp_gol_config.alive_);
-        std::vector<CellDetail> cell_alive = CreateCellDetails(exec_context.gol_config_.alive_, CellState::Alive);
-        exec_context.game_.SetCellStatuses(cell_alive);
+        gol_config.alive_ = std::move(temp_gol_config.alive_);
+        std::vector<CellDetail> cell_alive = CreateCellDetails(gol_config.alive_, CellState::Alive);
+        game.SetCellStatuses(cell_alive);
 
-        exec_context.gol_config_.dead_ = std::move(temp_gol_config.dead_);
-        std::vector<CellDetail> cell_dead = CreateCellDetails(exec_context.gol_config_.dead_, CellState::Dead);
-        exec_context.game_.SetCellStatuses(cell_dead);
+        gol_config.dead_ = std::move(temp_gol_config.dead_);
+        std::vector<CellDetail> cell_dead = CreateCellDetails(gol_config.dead_, CellState::Dead);
+        game.SetCellStatuses(cell_dead);
 
         return {GOLStatus::Ok, arity_};
     }

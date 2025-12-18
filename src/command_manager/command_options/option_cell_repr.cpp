@@ -43,7 +43,7 @@ namespace GOL
 
     std::pair<GOLStatus, size_t> CommandOptionCellRepr::Execute(Game &game, GOLConfig &gol_config, GOLConfig &temp_gol_config) const
     {
-        exec_context.gol_config_.cell_repr_ = temp_gol_config.cell_repr_;
+        gol_config.cell_repr_ = temp_gol_config.cell_repr_;
 
         return {GOLStatus::Ok, arity_};
     }
