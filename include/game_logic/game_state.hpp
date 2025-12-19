@@ -7,7 +7,8 @@ namespace GOL
     {
         Paused,
         Running,
-        Stopped
+        Stopped,
+        Completed
     };
 }
 

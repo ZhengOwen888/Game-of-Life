@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <vector>
+#include <random>
 
 namespace GOL
 {
@@ -16,26 +17,16 @@ namespace GOL
     class Game
     {
         public:
-            Game(GOLConfig &gol_config);
-
-            /*********************************************************
-             * @brief Run exactly one simulation.
-             * @param steps The number of generation to run at a time.
-             ********************************************************/
-            void Step(int steps = 1);
+            Game(GOLConfig &gol_config)
+                : gol_config_{gol_config}
+            {
+                ResizeGrid(gol_config_.width_,  gol_config_.height_);
+            }
 
             /*********************************************************
              * @brief Set a random initial state of the game.
-             * @param alive_prob The probability that a cell is alive.
              ********************************************************/
-            void RandomizeInit(double alive_prob = 0.0f);
-
-            /****************************************
-             * @brief Get the State of a single cell.
-             * @param x The col position of the cell.
-             * @param y The row position of the cell.
-             ***************************************/
-            CellState GetCell(int x, int y) const;
+            void RandomizeInit();
 
             /*************************************
              * @brief Compute the next generation.
@@ -49,41 +40,125 @@ namespace GOL
              *************************************************/
             void ResizeGrid(int width, int height);
 
-            /**********************************************
-             * @brief Set the State of a single cell.
-             * @param cell_detail Details of a single cell.
-             *********************************************/
-            void SetCellStatus(CellDetail cell_detail);
 
-            /***********************************************
+            /********************************************************************
+             * @brief Set the State of a single cell.
+             * @param gen_buf A reference to where we will store the cell detail.
+             * @param cell_detail Details of a single cell.
+             *******************************************************************/
+            void SetCellStatus(std::vector<CellDetail> &gen_buf, const CellDetail &cell_detail);
+
+            /*********************************************************************
              * @brief Set the State of many cells.
+             * @param gen_buf A reference to where we will store the cell details.
              * @param cell_details A vector of cell details.
-             **********************************************/
-            void SetCellStatuses(std::vector<CellDetail> cell_details);
+             ********************************************************************/
+            void SetCellStatuses(std::vector<CellDetail> &gen_buf, const std::vector<CellDetail> &cell_details);
+
+            /*********************************************************************
+             * @brief Get the State of a single cell.
+             * @param gen_buf A const reference to where we will store the cell details.
+             * @param x The col position of the cell.
+             * @param y The row position of the cell.
+             ********************************************************************/
+            const CellDetail &GetCell(const std::vector<CellDetail> &gen_buf, int x, int y) const
+            { return gen_buf[CalculateIndex(x, y)]; }
 
             /*******************************************************************************
              * @brief Check if the simulation has reached the maximum number of generations.
-             * @return True if reached max generation, false otherwise.
+             * @return True if reached max generation or population is 0, false otherwise.
              ******************************************************************************/
-            bool IsComplete() const;
+            bool IsComplete() const { return generation_ == gol_config_.generations_ && population_ == 0; }
 
-            /*****************************************************************************
-             * @brief Reset or Clear the Game of Life back to initial state with no cells.
-             ****************************************************************************/
+            /****************************************************
+             * @brief Return the simulation to its initial state.
+             ***************************************************/
             void ResetGame();
 
+            /************************************************************************
+             * @brief Clear the current Grid and fill with new cells all set to Dead.
+             ***********************************************************************/
+            void ClearGame();
+
+            /*************************************************
+             * @brief Change the state of the game to running.
+             ************************************************/
+            void RunGame() { game_state_ = GameState::Running; };
+
+            bool IsRunning() const { return game_state_ == GameState::Running; };
+
+            void PauseGame() { game_state_ = GameState::Paused; };
+
+            /***********************************************************
+             * @brief Get the initial state of the game before starting.
+             **********************************************************/
+            const std::vector<CellDetail> &GetInitState() const { return init_gen_; };
+
+            /**********************************************************
+             * @brief Get the current state of the game after starting.
+             *********************************************************/
+            const std::vector<CellDetail> &GetCurrState() const {return curr_gen_; }
+
+            /************************************************
+             * @brief Get the current population of the game.
+             ***********************************************/
+            int Population() const { return population_; };
+
+            /************************************************
+             * @brief Get the current generation of the game.
+             ***********************************************/
+            int Generation() const {return generation_; };
+
         private:
-            GOLConfig &gol_config_;
+            const GOLConfig &gol_config_; // game configuration read-only.
+            GameState game_state_{GameState::Stopped};
+
+            int generation_{};
+            int population_{};
+            int init_population_{};
 
             std::vector<CellDetail> init_gen_{};
             std::vector<CellDetail> curr_gen_{};
             std::vector<CellDetail> next_gen_{};
 
-            GameState game_state_{GameState::Stopped};
+            std::random_device rd_;
+            std::mt19937 gen_{rd_()};
 
-            int generation_count_{};
-            bool initialized_{false};
+            /*************************************************************************
+             * @brief Calculate the index of a 1D vector with the x (col) and y (row).
+             ************************************************************************/
+            int CalculateIndex(int x, int y) const { return y * gol_config_.width_ + x; };
 
+            /**************************************************************
+             * @brief Helper function to set all cells to dead.
+             * @param cell_details A reference to a vector of cell details.
+             *************************************************************/
+            void SetAllDead(std::vector<CellDetail> &cell_details);
+
+            /************************************************************************
+             * @brief Helper function to check if a position is on the grid.
+             * @param x Column.
+             * @param y Row.
+             * @return Returns true if the position is on the board, false otherwise.
+             ***********************************************************************/
+            bool OnGrid(int x, int y) const;
+
+            /********************************************************************
+             * @brief Check the number of alive neighbors around a single cell.
+             * @param gen_buf A reference to where we will store the cell details.
+             * @param x Column.
+             * @param y Row.
+             * @return Returns the number of alive neighbors aound a cell.
+             *******************************************************************/
+            int CheckAliveNeighbors(std::vector<CellDetail> &gen_buf, int x, int y) const;
+
+            /********************************************************************
+             * @brief Calculate a single cells next state.
+             * @param gen_buf A reference to where we will store the cell details.
+             * @param cell_detail The detail of a single cell.
+             * @return The next state of the single cell.
+             *******************************************************************/
+            CellDetail CellNextState(std::vector<CellDetail> &gen_buf, const CellDetail &cell_detail) const;
     };
 }
 
