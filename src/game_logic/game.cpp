@@ -157,13 +157,13 @@ namespace GOL
         if (cell_state == CellState::Alive)
         {
             // cell death by under over population
-            if (alive_neighbors < 2 || alive_neighbors >= 3)
+            if (alive_neighbors < 2 || alive_neighbors > 3)
             {
                 new_cell_detail.age_ = 0;
                 new_cell_detail.state_ = CellState::Dead;
             }
             // cell alive by having enough neighbors
-            else if (alive_neighbors == 2 || alive_neighbors == 3)
+            else
             {
                 new_cell_detail.age_++;
                 new_cell_detail.state_ = CellState::Alive;
