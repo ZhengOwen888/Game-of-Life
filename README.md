@@ -51,19 +51,19 @@ Description: Set game options and settings.
 
 
 Description: run the game.
-      Usage: gol run [options] <args>
+      Usage: gol run
     Example: gol run
     Options:
 
 
 Description: Quit the game.
-      Usage: gol quit [options] <args>
+      Usage: gol quit
     Example: gol quit
     Options:
 
 
 Description: randomly set cells for the current game configuration.
-      Usage: gol rand-init [options] <args>
+      Usage: gol rand-init
     Example: gol rand-init
     Options:
 ```
