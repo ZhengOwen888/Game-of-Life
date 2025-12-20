@@ -1,6 +1,5 @@
 #include "command_manager/commands/set_command.hpp"
 #include "command_manager/command.hpp"
-#include "command_manager/.hpp"
 #include "command_manager/config.hpp"
 #include "command_manager/status.hpp"
 
@@ -18,12 +17,18 @@ namespace GOL
 {
     void SetCommand::RegisterAllOptions()
     {
-        RegisterOption(CommandOptionResize{});
-        RegisterOption(CommandOptionGeneration{});
-        RegisterOption(CommandOptionDelayMs{});
-        RegisterOption(CommandOptionAliveProb{});
-        RegisterOption(CommandOptionCellRepr{});
-        RegisterOption(CommandOptionCellStatus{});
+        options_.push_back(std::make_unique<CommandOptionResize>());
+        options_.push_back(std::make_unique<CommandOptionGeneration>());
+        options_.push_back(std::make_unique<CommandOptionDelayMs>());
+        options_.push_back(std::make_unique<CommandOptionAliveProb>());
+        options_.push_back(std::make_unique<CommandOptionCellRepr>());
+        options_.push_back(std::make_unique<CommandOptionCellStatus>());
+
+        for (const auto &option : options_)
+        {
+            flag_table_[option->ShortFlag()] = option.get();
+            flag_table_[option->LongFlag()] = option.get();
+        }
     }
 
     GOLStatus SetCommand::Parse(const std::vector<std::string> &tokens, GOLConfig &temp_gol_config) const
@@ -74,7 +79,7 @@ namespace GOL
     {
         for (const auto &option : options_)
         {
-            auto [execute_status, tokens_consumed] = option->Execute(exec_context, temp_gol_config);
+            auto [execute_status, tokens_consumed] = option->Execute(game, gol_config, temp_gol_config);
 
             if (execute_status != GOLStatus::Ok)
             {

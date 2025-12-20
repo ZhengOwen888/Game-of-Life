@@ -16,7 +16,7 @@ namespace GOL
         inline constexpr int MAX_GENERATION = 1000;
 
         inline constexpr int MIN_DELAY_MS = 200;
-        inline constexpr int MAX_DELAY_MS = 500;
+        inline constexpr int MAX_DELAY_MS = 1000;
 
         inline constexpr double MIN_ALIVE_PROB = 0.0;
         inline constexpr double MAX_ALIVE_PROB = 1.0;

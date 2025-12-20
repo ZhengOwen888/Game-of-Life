@@ -7,10 +7,8 @@
 
 namespace GOL
 {
-    void RenderManager::Render(const Game &game, const GOLConfig &gol_config) const
+    void RenderManager::Render(const GOLConfig &gol_config, const Game &game) const
     {
-        std::cout << "\033[H"; // move cursor to the top-left
-
-        renderer_.Render(game, gol_config);
+        renderer_.Render(gol_config, game);
     }
 }

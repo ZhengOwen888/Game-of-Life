@@ -64,6 +64,7 @@ namespace GOL
             void DisplayCommandInfo() const;
 
         protected:
+            std::string cmd_name_;
             std::unordered_map<std::string, const CommandOption*> flag_table_{};
             std::vector<std::unique_ptr<CommandOption>> options_{};
 
@@ -91,15 +92,6 @@ namespace GOL
              ***********************************************************************/
             const std::vector<std::unique_ptr<CommandOption>> &Options() const { return options_; }
 
-            /****************************************************************
-             * @brief Registers a option for a specific command.
-             * @param cmd_option Detail of the option.
-             * @param parser The parser that will parse this option.
-             * @param validator The validator that will validate this option.
-             * @param executor The executor that will execute this option.
-             ***************************************************************/
-            void RegisterOption(const CommandOption &cmd_option);
-
             /** @brief Register all options at once. */
             virtual void RegisterAllOptions() = 0;
 
@@ -108,9 +100,6 @@ namespace GOL
              * @return Returns a string that represents the option.
              *****************************************************/
             std::string FormatOptionDisplay() const;
-
-        private:
-            std::string cmd_name_;
     };
 }
 #endif

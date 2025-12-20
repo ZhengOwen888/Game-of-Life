@@ -16,7 +16,7 @@ namespace GOL
     {
         public:
             CommandOptionResize()
-                : CommandOption{"-sz", "--size", "set grid size.", 3}
+                : CommandOption{"-rs", "--resize", "resize grid size.", 3}
             {}
 
             /**********************************************************************************************

@@ -12,6 +12,7 @@ namespace GOL
 {
     void Game::RandomizeInit()
     {
+        game_state_ = GameState::Paused;
         std::uniform_real_distribution prob_dist_{0.f, 1.f};
         int population{};
 
@@ -141,6 +142,8 @@ namespace GOL
                 count_neighbors++;
             }
         }
+
+        return count_neighbors;
     }
 
     CellDetail Game::CellNextState(std::vector<CellDetail> &gen_buf, const CellDetail &cell_detail) const

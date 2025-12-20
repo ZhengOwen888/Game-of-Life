@@ -1,10 +1,15 @@
 #ifndef GOL_COMMAND_MANAGER_HPP
 #define GOL_COMMAND_MANAGER_HPP
 
+#include "game_logic/game.hpp"
 #include "command_manager/status.hpp"
 #include "command_manager/config.hpp"
 #include "command_manager/command.hpp"
-#include "game_logic/game.hpp"
+
+#include "command_manager/commands/set_command.hpp"
+#include "command_manager/commands/run_command.hpp"
+#include "command_manager/commands/quit_command.hpp"
+#include "command_manager/commands/rand_init_command.hpp"
 
 #include <string>
 #include <memory>
@@ -16,7 +21,7 @@ namespace GOL
     {
         public:
             /** @brief Construct a CommandManager object */
-            CommandManager(GOLConfig &gol_config)
+            CommandManager()
             {
                 RegisterAllCommands();
             }
@@ -35,7 +40,10 @@ namespace GOL
              * @param game A reference to the actual gol game state.
              * @return Return a status code to signify the success or failure of executing the command.
              ******************************************************************************************/
-            GOLStatus ExecuteCommand(const std::string &cmd_input, GOLConfig &gol_config_,  Game &game);
+            GOLStatus ExecuteCommand(const std::string &cmd_input, GOLConfig &gol_config,  Game &game);
+
+            /** @brief Display all the information on all commands. */
+            void DisplayAllCommandInfo() const;
 
         private:
             std::map<std::string, const Command*> gol_cmd_table_;
@@ -47,12 +55,6 @@ namespace GOL
              * @return Return a vector of tokens representin the commands.
              ********************************************************************************************/
             std::vector<std::string> Tokenize(const std::string &cmd_input);
-
-            /***************************************************
-             * @brief Register a single command.
-             * @param cmd A const reference to a Command object.
-             **************************************************/
-            void RegisterCommand(const Command &cmd);
 
             /******************************************************************
              * @brief Register all the commands that CommandMnager will handle.

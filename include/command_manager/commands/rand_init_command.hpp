@@ -1,5 +1,5 @@
-#ifndef GOL_SET_COMMAND_HPP
-#define GOL_SET_COMMAND_HPP
+#ifndef GOL_RANDINIT_COMMAND_HPP
+#define GOL_RANDINIT_COMMAND_HPP
 
 #include "command_manager/command.hpp"
 #include "command_manager/config.hpp"
@@ -10,11 +10,11 @@
 
 namespace GOL
 {
-    class SetCommand : public Command
+    class RandInitCommand : public Command
     {
         public:
-            SetCommand()
-                :Command("set")
+            RandInitCommand()
+                :Command("rand-init")
             {
                 RegisterAllOptions();
             }
@@ -49,7 +49,7 @@ namespace GOL
              **************************************************************/
             std::string Description() const override
             {
-                return "Set game options and settings.";
+                return "randomly set cells for the current game configuration.";
             }
 
             /****************************************************************************
@@ -58,11 +58,15 @@ namespace GOL
              ***************************************************************************/
             std::string Example() const override
             {
-                return "gol set --resize 10 20 --generation 100";
+                return "gol rand-init";
             }
 
-            /** @brief Register all options at once. */
-            void RegisterAllOptions() override;
+            /**************************************
+             * @brief Register all options at once.
+             *
+             * rand-init has no options.
+             *************************************/
+            void RegisterAllOptions() override {};
     };
 }
 

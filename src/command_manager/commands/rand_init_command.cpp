@@ -1,5 +1,4 @@
-
-#include "command_manager/commands/run_command.hpp"
+#include "command_manager/commands/rand_init_command.hpp"
 #include "command_manager/command.hpp"
 #include "command_manager/config.hpp"
 #include "command_manager/status.hpp"
@@ -9,7 +8,7 @@
 
 namespace GOL
 {
-    GOLStatus RunCommand::Parse(const std::vector<std::string> &tokens, GOLConfig &temp_gol_config) const
+    GOLStatus RandInitCommand::Parse(const std::vector<std::string> &tokens, GOLConfig &temp_gol_config) const
     {
         if (tokens.size() != 2)
         {
@@ -32,14 +31,14 @@ namespace GOL
         return GOLStatus::Ok;
     }
 
-    GOLStatus RunCommand::Validate(GOLConfig &temp_configs) const
+    GOLStatus RandInitCommand::Validate(GOLConfig &temp_configs) const
     {
         return GOLStatus::Ok;
     }
 
-    GOLStatus RunCommand::Execute(Game &game, GOLConfig &gol_config, GOLConfig &temp_gol_config) const
+    GOLStatus RandInitCommand::Execute(Game &game, GOLConfig &gol_config, GOLConfig &temp_gol_config) const
     {
-        game.RunGame();
+        game.RandomizeInit();
         return GOLStatus::Ok;
     }
 }

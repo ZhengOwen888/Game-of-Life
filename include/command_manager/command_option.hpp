@@ -61,7 +61,7 @@ namespace GOL
             std::string short_flag_;
             std::string long_flag_;
             std::string description_;
-            size_t arity_{};
+            int arity_{};
 
             /** @brief Helper function to convert std::string to int. */
             std::pair<GOLStatus, int> ConvertStrToInt(const std::string &str) const;

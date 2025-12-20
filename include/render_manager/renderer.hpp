@@ -6,6 +6,7 @@
 #include "game_logic/game_state.hpp"
 #include "command_manager/config.hpp"
 
+#include <iostream>
 #include <vector>
 
 namespace GOL
@@ -13,7 +14,7 @@ namespace GOL
     class Renderer
     {
         public:
-            void Render(const Game &game, const GOLConfig &gol_config) const;
+            void Render(const GOLConfig &gol_config, const Game &game) const;
     };
 }
 

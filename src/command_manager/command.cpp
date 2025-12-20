@@ -34,14 +34,4 @@ namespace GOL
 
         return option_display;
     }
-
-    void Command::RegisterOption(const CommandOption &cmd_option)
-    {
-        options_.push_back(std::make_unique<CommandOption>(cmd_option));
-
-        const CommandOption *cmd_option_stored = options_.back().get();
-
-        flag_table_[cmd_option_stored->ShortFlag()] = cmd_option_stored;
-        flag_table_[cmd_option_stored->LongFlag()] = cmd_option_stored;
-    }
 }

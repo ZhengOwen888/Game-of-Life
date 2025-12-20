@@ -13,7 +13,7 @@ namespace GOL
 {
     std::pair<GOLStatus, size_t> CommandOptionResize::Parse(const std::vector<std::string> &tokens, size_t index, GOLConfig &temp_gol_config) const
     {
-        if (index + arity_ >= tokens.size())
+        if (index + arity_ > tokens.size())
         {
             return {GOLStatus::MissingArg, 0};
         }

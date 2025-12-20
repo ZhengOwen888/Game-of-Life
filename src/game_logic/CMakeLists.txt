@@ -12,5 +12,5 @@ add_library(game_logic_library STATIC ${game_logic_src})
 # Include directory for game_logic_library headers
 target_include_directories(game_logic_library
     PUBLIC
-        "${CMAKE_SOURCE_DIR}/include/game_logic"
+        "${CMAKE_SOURCE_DIR}/include"
 )

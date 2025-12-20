@@ -12,7 +12,7 @@ namespace GOL
     class RenderManager
     {
         public:
-            void Render(const Game &game, const GOLConfig &gol_config) const;
+            void Render(const GOLConfig &gol_config, const Game &game) const;
 
         private:
             Renderer renderer_;

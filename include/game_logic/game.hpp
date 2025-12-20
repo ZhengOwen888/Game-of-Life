@@ -68,7 +68,7 @@ namespace GOL
              * @brief Check if the simulation has reached the maximum number of generations.
              * @return True if reached max generation or population is 0, false otherwise.
              ******************************************************************************/
-            bool IsComplete() const { return generation_ == gol_config_.generations_ && population_ == 0; }
+            bool IsComplete() const { return generation_ == gol_config_.generations_ || population_ == 0; }
 
             /****************************************************
              * @brief Return the simulation to its initial state.
@@ -85,18 +85,47 @@ namespace GOL
              ************************************************/
             void RunGame() { game_state_ = GameState::Running; };
 
+            /*********************************************************************
+             * @brief Check if the game is still running.
+             * @return Returns true if the game is still running, false otherwise.
+             ********************************************************************/
             bool IsRunning() const { return game_state_ == GameState::Running; };
 
+            /************************
+             * @brief Pause the game.
+             ***********************/
             void PauseGame() { game_state_ = GameState::Paused; };
 
-            /***********************************************************
-             * @brief Get the initial state of the game before starting.
-             **********************************************************/
+            /**************************************************************
+             * @brief Check if the game is paused.
+             * @return Returns true if the game is paused, false otherwise.
+             *************************************************************/
+            bool IsPaused() const { return game_state_ == GameState::Paused; };
+
+            /***********************
+             * @brief Quit the game.
+             **********************/
+            void QuitGame() {game_state_ = GameState::Quit; }
+
+            /*************************************************************
+             * @brief Check if the game has quit.
+             * @return Returns true if the game has quit, false otherwise.
+             ************************************************************/
+            bool IsQuit() const {return game_state_ == GameState::Quit; }
+
+            /********************************************************************************
+             * @brief Get a const reference to the initial state of the game before starting.
+             *******************************************************************************/
             const std::vector<CellDetail> &GetInitState() const { return init_gen_; };
 
-            /**********************************************************
-             * @brief Get the current state of the game after starting.
-             *********************************************************/
+            /**************************************************************************
+             * @brief Get a reference to the initial state of the game before starting.
+             *************************************************************************/
+            std::vector<CellDetail> &GetMutableInitState() { return init_gen_; };
+
+            /*******************************************************************************
+             * @brief Get a const reference to the current state of the game after starting.
+             ******************************************************************************/
             const std::vector<CellDetail> &GetCurrState() const {return curr_gen_; }
 
             /************************************************
@@ -111,7 +140,7 @@ namespace GOL
 
         private:
             const GOLConfig &gol_config_; // game configuration read-only.
-            GameState game_state_{GameState::Stopped};
+            GameState game_state_{GameState::Paused};
 
             int generation_{};
             int population_{};

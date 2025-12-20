@@ -12,7 +12,7 @@ namespace GOL
 {
     std::pair<GOLStatus, size_t> CommandOptionCellStatus::Parse(const std::vector<std::string> &tokens, size_t index, GOLConfig &temp_gol_config) const
     {
-        if (index + arity_ >= tokens.size())
+        if (index + arity_ > tokens.size())
         {
             return {GOLStatus::MissingArg, 0};
         }
@@ -78,11 +78,11 @@ namespace GOL
     {
         gol_config.alive_ = std::move(temp_gol_config.alive_);
         std::vector<CellDetail> cell_alive = CreateCellDetails(gol_config.alive_, CellState::Alive);
-        game.SetCellStatuses(cell_alive);
+        game.SetCellStatuses(game.GetMutableInitState(), cell_alive);
 
         gol_config.dead_ = std::move(temp_gol_config.dead_);
         std::vector<CellDetail> cell_dead = CreateCellDetails(gol_config.dead_, CellState::Dead);
-        game.SetCellStatuses(cell_dead);
+        game.SetCellStatuses(game.GetMutableInitState(), cell_dead);
 
         return {GOLStatus::Ok, arity_};
     }

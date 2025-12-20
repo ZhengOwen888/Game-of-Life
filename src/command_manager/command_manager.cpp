@@ -5,7 +5,8 @@
 
 #include "command_manager/commands/set_command.hpp"
 #include "command_manager/commands/run_command.hpp"
-#include "command_manager/commands/reset_command.hpp"
+#include "command_manager/commands/quit_command.hpp"
+#include "command_manager/commands/rand_init_command.hpp"
 
 #include <sstream>
 #include <string>
@@ -82,17 +83,26 @@ namespace GOL
         return tokens;
     }
 
-    void CommandManager::RegisterCommand(const Command &cmd)
-    {
-        gol_cmds_.push_back(std::make_unique<Command>(cmd));
-
-        const Command *gol_cmd = gol_cmds_.back().get();
-
-        gol_cmd_table_[gol_cmd->Name()] = gol_cmd;
-    }
-
     void CommandManager::RegisterAllCommands()
     {
-        RegisterCommand(SetCommand{});
+        gol_cmds_.push_back(std::make_unique<SetCommand>());
+        gol_cmds_.push_back(std::make_unique<RunCommand>());
+        gol_cmds_.push_back(std::make_unique<QuitCommand>());
+        gol_cmds_.push_back(std::make_unique<RandInitCommand>());
+
+        for (const auto &gol_cmd : gol_cmds_)
+        {
+            gol_cmd_table_[gol_cmd->Name()] = gol_cmd.get();
+        }
+    }
+
+    void CommandManager::DisplayAllCommandInfo() const
+    {
+        std::cout << "#== GOL Command Info ==#\n";
+        for (const auto &gol_cmd : gol_cmds_)
+        {
+            gol_cmd->DisplayCommandInfo();
+            std::cout << '\n';
+        }
     }
 }

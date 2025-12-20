@@ -3,6 +3,9 @@
 
 #include "game_logic/constants.hpp"
 
+#include <utility>
+#include <vector>
+
 namespace GOL
 {
     /************************************************************************
