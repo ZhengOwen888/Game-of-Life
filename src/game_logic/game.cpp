@@ -35,6 +35,7 @@ namespace GOL
         }
         init_population_ = population;
         population_ = population;
+        generation_ = 0;
         curr_gen_ = init_gen_;
     }
 

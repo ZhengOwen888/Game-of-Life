@@ -23,16 +23,23 @@ namespace GOL
         }
 
         std::cout << '\n';
+        std::cout << '+' << std::string(gol_config.width_ * 2 + 5, '-') << "+\n";
+        std::cout << '|' << std::string(gol_config.width_ * 2 + 5, ' ') << "|\n";
 
         for (int row = 0; row < gol_config.height_; row++)
         {
-            std::cout << '[';
+            std::cout << "|  [";
             for (int col = 0; col < gol_config.width_; col++)
             {
                 CellDetail cell_detail = game.GetCell(cell_details, col, row);
                 if (cell_detail.state_ == CellState::Alive)
                 {
-                    std::cout << gol_config.cell_repr_;
+                    std::string cell_repr{};
+                    cell_repr += "\033[32m";
+                    cell_repr +=  gol_config.cell_repr_;
+                    cell_repr += "\033[0m";
+
+                    std::cout << cell_repr;
                 }
                 else
                 {
@@ -44,8 +51,10 @@ namespace GOL
                     std::cout << ' ';
                 }
             }
-            std::cout << "]\n";
+            std::cout << "]  |\n";
         }
+        std::cout << '|' << std::string(gol_config.width_ * 2 + 5, ' ') << "|\n";
+        std::cout << '+' << std::string(gol_config.width_ * 2 + 5, '-') << "+\n";
         std::cout << "\nGeneration: " << game.Generation() << " | " << "Population: " << game.Population() << "\n\n";
     }
 }
